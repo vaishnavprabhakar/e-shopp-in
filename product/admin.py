@@ -1,0 +1,31 @@
+from django.contrib import admin
+from .models import Product , Category, Cart
+from django.urls import reverse
+from django.utils.html import format_html
+import admin_thumbnails
+# Register your models here.
+
+@admin.register(Category)
+@admin_thumbnails.thumbnail('category_image')
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields =  { 'slug': ('category_name',)}
+    list_display        =  ('category_name', 'slug')
+
+
+
+
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('product_name', 'price', 'stock','modified_date','is_available')
+    prepopulated_fields = {'slug': ('product_name',)}
+  
+
+admin.site.register(Product, ProductAdmin)
+
+
+
+@admin.register(Cart)
+class CartModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'product', 'quantity']
+    list_display_links = ['user']

@@ -16,11 +16,11 @@ $(".remove-cart").click(function () {
       document.getElementById("amount").innerText = data.amount;
       document.getElementById("totalamount").innerText = data.totalamount;
       eml.parentNode.parentNode.parentNode.parentNode.remove();
-      // console.log("data =" ,data)
-      // eml.innerText = data.quantity
-      // document.getElementById("amount").innerHTML=data.amount
-      // document.getElementById("totalamount").innerText=data.totalamount
-      // eml.parentNode.parentNode.parentNode.parentNode.remove()
+       console.log("data =" ,data)
+       eml.innerText = data.quantity
+       document.getElementById("amount").innerHTML=data.amount
+       document.getElementById("totalamount").innerText=data.totalamount
+       eml.parentNode.parentNode.parentNode.parentNode.remove()
     },
   });
 });
@@ -69,6 +69,13 @@ $(".minus-cart").click(function () {
     },
   });
 });
+
+
+
+
+
+
+// google pay payment gateway
 
 
 

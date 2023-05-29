@@ -6,21 +6,21 @@
 
 
 <div class="container text-primary">
-    {% if messages %}
+    {% comment %} {% if messages %}
        {% for msg in messages %}
        <div class="alert alert-danger" role="alert">
         {{msg}}
 
        </div>
        {% endfor %}
-    {% endif %}
+    {% endif %} {% endcomment %}
     <div class="row mt-5">
         <div class="col-sm-6">
             <h4>order summery</h4>
             <hr>
             {% for item in cart_items %}
             <div class="card mb-2">
-                <div class="card-body">
+                <div class="card-body d-flex">
                     <h5>Product: {{item.product.product_name}}</h5>
                     <p>Quantity: {{item.quantity}}</p>
                     <p class="fw-bold">Price {{item.product.discounted_price}}</p>
@@ -38,251 +38,41 @@
             {% for ad in add %}
             <div class="card">
                 <div class="card-body">
-                    <h5>{{ad.name}}</h5>
-                    <p>Mobile: {{ad.mobile}}</p>
+                    <h5>{{ad.first_name}}</h5>
+                    <p>Mobile: {{ad.phone}}</p>
                     <p>{{ad.locality}} {{ad.city}} {{ad.state}} - {{ad.zipcode}}</p>
                 </div>
             </div>
-                <div class="form-check mt-2 mb-5">
-                    <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
-                    <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
-                        Address: {{forloop.counter}}</label>                  
-                </div>
-          
+            
+                
+            <div class="form-check mt-2 mb-5">
+                <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}"  value="{{ad.id}}">
+                <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
+                    Address: {{forloop.counter}}</label>                  
+            </div>
+            
             {% endfor %}
 
-         <div class="form-check mb-3">
+            <div class="form-check mb-3">
                 <label for="totamount" class="form-check-label">Total Amount</label>
                 <input type="number" class="form-control" name="totamount" value={{totalamount}} readonly>
             
-            <div class="text-end">
+            <div class="text-end d-flex">
                 <a href="{% url 'cart' %}" type="button" class="btn btn-danger mt-3 px-5 fw-bold">Back</a>&nbsp&nbsp
 
-                {% comment %} <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button> {% endcomment %}
-                <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Payment</button>
+                <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Pay Now</button>
                   
             </div>
-            
-              
-
-            
-        </div>
-
+            </div>
         </form>
 
     </div>
     </div>
 </div>
 
-
-
-
-
-{% comment %} 
-<div class="container">
-    {% if messages %}
-       {% for msg in messages %}
-       <div class="alert alert-danger" role="alert">
-        {{msg}}
-
-       </div>
-       {% endfor %}
-    {% endif %}
-    <div class="row mt-5">
-        <div class="col-sm-6">
-            <h4>order summery</h4>
-            <hr>
-            {% for item in cart_items %}
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5>Product: {{item.product.title}}</h5>
-                    <p>Quantity: {{item.quantity}}</p>
-                    <p class="fw-bold">Price {{item.product.discounted_price}}</p>
-                </div>
-            </div>
-            {% endfor %}
-            <p class="fw-bold">Total Cost + Rs. 40 = {{totalamount}}</p>
-            <small>Terms and condition:</small>
-        </div>
-    <div class="col-sm-4 offset-sm-1">
-        <h4>Select Shipping Address </h4>
-        <hr>
-        <form method="post" id="myform">
-            {% csrf_token %}
-            {% for ad in add %}
-            <div class="card">
-                <div class="card-body">
-                    <h5>{{ad.name}}</h5>
-                    <p>Mobile: {{ad.mobile}}</p>
-                    <p>{{ad.locality}} {{ad.city}} {{ad.state}} - {{ad.zipcode}}</p>
-                </div>
-            </div>
-                <div class="form-check mt-2 mb-5">
-                    <input class="form-check-input" type="radio" name="custid" id="custadd{{forloop.counter}}" value="{{ad.id}}">
-                    <label class="form-check-label fw-bold" for="custadd{{forloop.counter}}">
-                        Address: {{forloop.counter}}</label>                  
-                </div>
-          
-            {% endfor %}
-
-         <div class="form-check mb-3">
-                <label for="totamount" class="form-check-label">Total Amount</label>
-                <input type="number" class="form-control" name="totamount" value={{totalamount}} readonly>
-            
-            <div class="text-end">
-                <a href="{%url 'showcart'%} " type="button" class="btn btn-danger mt-3 px-5 fw-bold">Back</a>&nbsp&nbsp
-
-                {% comment %} <button type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Continue</button> {% endcomment %}
-                {% comment %} <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Payment</button>
-                  
-            </div>
-            
-              
-
-            
-        </div>
-
-        </form>
-
-    </div>
-    </div>
-</div>  {% endcomment %}
-
-
-
-
-{% comment %} <section class="section-content padding-y bg">
-<div class="container">
-
-	
-<!-- ============================ COMPONENT 1 ================================= -->
-
-<div class="row">
-	<aside class="col-lg-6">
-<div class="card bg-dark">
-	<div class="card-body">
-		<h4 class="card-title text-light text-align-center justify-content-center"> Billing Address</h4>
-
-		<form >
-			<div class="form-row">
-				<div class="col form-group">
-					<label for="first_name">First Name</label>
-					<input type="text" name="first_name" class="form-control" required>
-				</div>
-				<div class="col form-group">
-					<label for="last_name">Last Name</label>
-					<input type="text" name="last_name" class="form-control" required>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col form-group">
-					<label for="email"> Email</label>
-					<input type="email" name="email" class="form-control" required>
-				</div>
-				<div class="col form-group">
-					<label for="Phone"> Phone Number</label>
-					<input type="tel" name="tel" class="form-control" required>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col form-group">
-					<label for="first_name">First Name</label>
-					<input type="textarea" name="first_name" class="form-control" required>
-				</div>
-				<div class="col form-group">
-					<label for="last_name">Last Name</label>
-					<input type="text" name="last_name" class="form-control" required>
-				</div>
-			</div>
-			<div class="form-row">
-				<div class="col form-group">
-					<label for="first_name">First Name</label>
-					<input type="text" name="first_name" class="form-control" required>
-				</div>
-				<div class="col form-group">
-					<label for="last_name">Last Name</label>
-					<input type="text" name="last_name" class="form-control" required>
-				</div>
-			</div>
-		</form>
-	</div>
-</div> <!-- card.// -->
-
-	</aside> <!-- col.// -->
-	<aside class="col-lg-6">
-
-		<div class="card">
-		<div class="card-body">
-
-			<table class="table table-borderless table-shopping-cart">
-				<thead class="text-muted">
-				<tr class="small text-uppercase">
-				  <th scope="col">Product</th>
-				  <th scope="col" width="120">Quantity</th>
-				  <th scope="col" width="120">Price</th>
-				  <th scope="col" class="text-right" width="200"> </th>
-				</tr>
-				</thead>
-				{% for item in cart %}
-				<tbody>
-				
-				
-				<tr>
-					<td>
-						<figure class="itemside align-items-center">
-							<div class="aside"><a href="{{ item.product.get_url }}"><img src="{{ item.product.image.url }}" class="img-sm"></div></a>
-							<figcaption class="info">
-								<a href="{{ item.product.get_url }}" class="title text-dark">{{item.product.product_name }} </a>
-								<p class="text-muted small"><br> Brand: {{ item.product.company_name }}</p>
-							</figcaption>
-						</figure>
-					</td>
-					<td> 
-					<!-- col.// -->
-					<div class="col"> 
-						<div class="input-group input-spinner">
-							<div class="input-group-prepend">
-								<button class="btn btn-light minus-cart" pid="{{ item.product.id }}" >
-									 <i class="fa fa-minus"></i> 
-								</button>
-							</div>
-							<input type="text" class="form-control" value="{{ item.quantity }}" id="quantity">
-							<div class="input-group-append">
-								<button class="btn btn-light plus-cart" pid="{{ item.product.id }}" >
-									<i class="fa fa-plus"></i> 
-								</button>
-							</div>
-						</div> <!-- input-group.// -->
-					</div> <!-- col.// -->
-					</td>
-					<td> 
-					<div class="price-wrap"> 
-						<var class="price">$ {{ item.product.discounted_price }}</var> 
-						<small class="text-muted"> $ {{ item.product.price }} Each </small> 
-					</div> <!-- price-wrap .// -->
-					</td>
-					<td class="text-right"> 
-					<a class="btn btn-danger remove-cart" pid="{{item.product.id}}"> Remove</a>
-					</td>
-				</tr>
-				{% endfor %}
-				
-				</tbody>
-				</table>
-			
-			<a href="" class="btn btn-primary btn-block"> Place order </a>
-			{% comment %} <a href="{% url 'home' %}" class="btn btn-light btn-block">Continue Shopping</a> {% endcomment %}
-		{% comment %} </div> <!-- card-body.// -->
-		</div> <!-- card.// --> {% endcomment %}
-
-{% comment %} </aside> <!-- col.// -->
-
-
-</div> <!-- row.// -->
 <!-- ============================ COMPONENT 1 END .// ================================= -->
 
-</div> <!-- container .//  -->
-</section> {% endcomment %}
+
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 <script src="{% static 'js/js.js' %}"></script>
@@ -290,7 +80,52 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>	
 
 
-<script async src="https://pay.google.com/gp/p/js/pay.js" onload="onGooglePayLoaded()"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+    "key": "rzp_test_7S5RmXAoN37TZL", // Enter the Key ID generated from the Dashboard
+    "amount": "{{razoramount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "e-Shopie",
+    "description": "Purchase Product",
+    //"image": "https://example.com/your_logo",
+    "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    //"order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        var form = document.getElementById("myform");
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        window.location.href = `http://localhost:7000/paymentdone?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&cust_id=${form.elements["custid"].value}`
+        console.log('href')
+    },
+
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert('payment_ failed');
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+    rzp1.open(); 
+    console.log('rzp1 opened');
+    e.preventDefault();
+    console.log('preventDefault() called ');
+}
+</script>
+
+
+
+
 
 
 

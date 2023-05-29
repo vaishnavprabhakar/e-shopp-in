@@ -162,3 +162,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 TEMPLATES_DIRS = [[BASE_DIR] + STATICFILES_DIRS]
 
 AUTH_USER_MODEL = "user.User"
+
+
+
+
+#-----------------------RAZORPAY PAYMENT GATEWAY-----------------
+
+RAZOR_KEY_ID = "rzp_test_7S5RmXAoN37TZL"
+RAZOR_KEY_SECRET = "JnPUniVfZzDg5f6Hlbeo3sT2"
+

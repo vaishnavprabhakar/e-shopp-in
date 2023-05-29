@@ -95,10 +95,10 @@ def loginuser(request):
             user = authenticate(email=email, password=password1)
             print(user)
             if user is not None and not user.is_superuser:
-                messages.success(request, 'You are successfully logged in as {{ user }}')
                 auth_login(request, user)
                 print('Redirecting to home')
                 print(user.first_name + ' ' + user.last_name)
+                messages.success(request, "You are successfully logged in" )
                 return redirect('home')
             else:
                 messages.warning(
@@ -153,10 +153,10 @@ def sign(request):
 			print(user.pk)
 			print('user created Successfully please check the database')
 			messages.success(request,
-								'Your Account has been created successfuly.')
+								'Your Account has been created successfuly. Please verify your email.')
 
 		else:
-			messages.warning(request, 'Please checkout the inputs')
+			messages.success(request, 'Please checkout the inputs')
 			return render(request, 'account/register.html', {'form': form})
 	else:
 		form = UserForm()
@@ -205,7 +205,7 @@ def profile(request):
 
 def logout(request):
     auth_logout(request)
-    request.user.session.flush()
+    request.session.flush()
     return redirect('loginuser')
 
 

@@ -9,8 +9,6 @@ from django.contrib import admin
 urlpatterns = [
     path('home/', views.homepage, name='home'),
 
-
-
     # path("show-address/", views.address_show, name='address'),
     
     # path("address-show/",views.address_show, name='profile-show'),
@@ -30,6 +28,8 @@ urlpatterns = [
     path('removecart/', views.removecart),            
 
     path('checkout/', views.checkout, name='checkout'),            
+    path('paymentdone/', views.paymentdone, name='paymentdone'),            
+    path('orders/', views.homepage, name='orders'),            
     
     
     path("<slug:category_slug>/", views.homepage, name='products_by_category'),

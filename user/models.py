@@ -61,8 +61,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         return self.first_name + ' ' + self.last_name
 
-    def __str__(self):
-        return f'{self.email}\'s Profile'
+    # def __str__(self):
+    #     return f'{self.email}\'s Profile'
 
 
 class UserAddress(models.Model):

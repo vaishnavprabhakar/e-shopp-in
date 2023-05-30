@@ -18,9 +18,9 @@ urlpatterns = [
     
     path("<slug:category_slug>/<slug:product_slug>/", views.product_detail, name='product_detail'),
     
-    path('cartsd/', views.carth, name='cart'), 
-    
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'), 
+    
+    path('cartsd/', views.carth, name='cart'), 
     
 
     path('pluscart/', views.pluscart),            

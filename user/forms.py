@@ -242,10 +242,10 @@ class MySetPasswordForm(SetPasswordForm):
 
     new_password1 = forms.CharField(
         label='New Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-group'}))
+        widget=forms.PasswordInput(attrs={'class': 'form-control col-md '}))
     new_password2 = forms.CharField(
         label='Confirm Password',
-        widget=forms.PasswordInput(attrs={'class': 'form-group'}))
+        widget=forms.PasswordInput(attrs={'class': 'form-control col-md'}))
 
 
 class MyPasswordChange(PasswordChangeForm):

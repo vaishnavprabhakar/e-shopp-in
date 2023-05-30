@@ -1,3 +1,5 @@
+
+
 $(".remove-cart").click(function () {
   console.log("hello");
   var id = $(this).attr("pid").toString();
@@ -16,20 +18,23 @@ $(".remove-cart").click(function () {
       document.getElementById("amount").innerText = data.amount;
       document.getElementById("totalamount").innerText = data.totalamount;
       eml.parentNode.parentNode.parentNode.parentNode.remove();
-       console.log("data =" ,data)
-       eml.innerText = data.quantity
-       document.getElementById("amount").innerHTML=data.amount
-       document.getElementById("totalamount").innerText=data.totalamount
-       eml.parentNode.parentNode.parentNode.parentNode.remove()
+      //  console.log("data =" ,data)
+      //  eml.innerText = data.quantity
+      //  document.getElementById("amount").innerHTML=data.amount
+      //  document.getElementById("totalamount").innerText=data.totalamount
+      //  eml.parentNode.parentNode.parentNode.parentNode.remove()
     },
   });
 });
+
+
+
 
 $(".plus-cart").click(function () {
   console.log("plus button");
   var id = $(this).attr("pid").toString();
 
-  var eml = this;
+  var eml = (this.parentNode.parentNode.children[1]);
   console.log(eml);
   console.log("pid =", id);
 
@@ -39,11 +44,10 @@ $(".plus-cart").click(function () {
     data: {
       prod_id: id,
     },
-    success: function (data) {
-      console.log("data =", data);
-      document.getElementById("quantity").innerText = data.quantity;
-      document.getElementById("amount").innerText = data.amount;
-      document.getElementById("totalamount").innerText = data.totalamount;
+    success: function (data) {      
+      eml.innerText = data.quantity;
+      document.getElementById('amount').innerText = data.amount;
+      document.getElementById('totalamount').innerText = data.totalamount;
     },
   });
 
@@ -52,9 +56,8 @@ $(".plus-cart").click(function () {
 
 $(".minus-cart").click(function () {
   var id = $(this).attr("pid").toString();
-  var eml = this;
+  var eml = (this.parentNode.children[2]);
   console.log("pid =", id);
-  console.log(eml.parentNode.children[2]);
   $.ajax({
     type: "GET",
     url: "/minuscart",
@@ -63,9 +66,9 @@ $(".minus-cart").click(function () {
     },
     success: function (data) {
       console.log("data =", data);
-      document.getElementById("quantity").innerText = data.quantity;
-      document.getElementById("amount").innerText = data.amount;
-      document.getElementById("totalamount").innerText = data.totalamount;
+      document.getElementById('quantity').innerText = data.quantity;
+      document.getElementById('amount').innerText = data.amount;
+      document.getElementById('totalamount').innerText = data.totalamount;
     },
   });
 });
@@ -76,8 +79,6 @@ $(".minus-cart").click(function () {
 
 
 // google pay payment gateway
-
-
 
 
 

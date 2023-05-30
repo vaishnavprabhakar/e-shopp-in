@@ -77,13 +77,13 @@
 		</div>
 	</div> <!-- row.// --> {% endcomment %} <!-- // end product size -->
 	<hr>
-	<form  class="d-inline" action="/add-to-cart">
+	<form  class="d-inline" action="/add-to-cart" >
 		{% csrf_token %}
 		<input type="hidden" name="prod_id" value="{{ select_product.id }}"/>
 
 		<button type="submit" class="btn btn-primary shadow px-6 py-9"> Add to Cart<span><i class="fas fa-shopping-cart"></i> </span>
 		</button>
-	  </form>
+	</form>
 	{% comment %} <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a> {% endcomment %}
 </article> <!-- product-info-aside .// -->
 		</main> <!-- col.// -->

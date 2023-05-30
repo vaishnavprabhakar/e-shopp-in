@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 # # Create your views here.
 
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .forms import UserForm, LoginForm
@@ -39,7 +38,7 @@ from .models import UserAddress
 # from django.db.models import Q
 # from administration.models import Cart
 # from django.http import JsonResponse
-
+from django.views.decorators.cache import cache_control
 
 # #Create your views here.
 
@@ -80,7 +79,7 @@ def active(request, uidb64, token):
         # return HttpResponse('Activation link is invalid!')
         return render(request, 'account/active.html')
 
-
+# @cache_control(no_cache=False, must_revalidate=False, no_store=False)
 def loginuser(request):
 
     login_form = LoginForm()
@@ -109,7 +108,7 @@ def loginuser(request):
 
 
 
-@login_required(login_url='loginuser')
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def home(request, category_slug=None):
     categories = None
     products = None
@@ -128,7 +127,7 @@ def home(request, category_slug=None):
 
 
 # User Registrations with email verification using token authentication
-
+# @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def sign(request):
 	if request.method == 'POST':
 		data = request.POST
@@ -166,7 +165,7 @@ def sign(request):
 
 
 
-
+@login_required(login_url='/login')
 def profile(request):
     
     return render(request, 'account/dashboard.html')
@@ -206,7 +205,7 @@ def profile(request):
 def logout(request):
     auth_logout(request)
     request.session.flush()
-    return redirect('loginuser')
+    return redirect('home')
 
 
 

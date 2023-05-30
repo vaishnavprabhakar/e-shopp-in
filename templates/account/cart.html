@@ -51,13 +51,13 @@
 		<div class="input-group input-spinner">
 			<div class="input-group-prepend">
 				<button class="btn btn-light minus-cart" pid="{{ item.product.id }}" >
-					 <i class="fa fa-minus"></i> 
+					 <i class="fa fa-minus minus-cart"></i> 
 				</button>
 			</div>
-			<input type="text" class="form-control" value="{{ item.quantity }}" id="quantity">
+			<input type="text" class="form-control quantity" value="{{ item.quantity }}" id="quantity">
 			<div class="input-group-append">
 				<button class="btn btn-light plus-cart"  pid="{{ item.product.id }}" >
-					<i class="fa fa-plus"></i> 
+					<i class="fa fa-plus "></i> 
 				</button>
 			</div>
 		</div> <!-- input-group.// -->
@@ -80,9 +80,9 @@
 </div> <!-- card.// -->
 
 	</aside> <!-- col.// -->
-	<aside class="col-lg-3">
+	<aside class="col-lg-3 text-dark">
 
-		<div class="card">
+		<div class="card ">
 		<div class="card-body">
 			<dl class="dlist-align">
 			  <dt>Total price:</dt>
@@ -116,9 +116,9 @@
 {% endif %}
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
-<script src="{% static 'js/js.js' %}"></script>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>	
+
+<script src="{% static 'js/js.js' %}"></script>
 
 
 </body>

@@ -34,57 +34,25 @@
 <hr>
 <!-- variations -->
 
-	{% comment %} <div class="row">
-		<div class="item-option-select">
-			<h6>Choose Color</h6>
-			<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> Silver
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color" > Gray
-			  </label>
-			  <label class="btn btn-light active">
-			    <input type="radio" name="radio_color checked"> Gold
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> Black
-			  </label>
-			</div> 
-		</div>
-	</div> <!-- row.// --> {% endcomment %} <!-- // end variations -->
+	
 
 
-	<!-- product size -->
-
-	{% comment %} <div class="row">
-		<div class="item-option-select">
-			<h6>Select Size</h6>
-			<div class="btn-group btn-group-sm btn-group-toggle" data-toggle="buttons">
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> S
-			  </label>
-			  <label class="btn btn-light active">
-			    <input type="radio" name="radio_color" checked> M
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> L
-			  </label>
-			  <label class="btn btn-light">
-			    <input type="radio" name="radio_color"> XL
-			  </label>
-			</div> 
-		</div>
-	</div> <!-- row.// --> {% endcomment %} <!-- // end product size -->
+	
 	<hr>
 	<form  class="d-inline" action="/add-to-cart" >
 		{% csrf_token %}
 		<input type="hidden" name="prod_id" value="{{ select_product.id }}"/>
-
-		<button type="submit" class="btn btn-primary shadow px-6 py-9"> Add to Cart<span><i class="fas fa-shopping-cart"></i> </span>
-		</button>
+		<div class="align-item-center">
+			<button type="submit" class="btn btn-primary shadow px-6 py-9"> Add to Cart<span><i class="fas fa-shopping-cart"></i> </span></button>
+		</div>
 	</form>
-	{% comment %} <a href="./product-detail.html" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a> {% endcomment %}
+
+	<form  class="d-block col-lg py-4" action="/wishlist">
+		<div class="form-row">
+			<input type="hidden" name="pid" pid="{{ select_product.id }}">
+			<button type="submit" class="btn align-item-center justify-content-center"><span><i class="fas fa-heart"></i></span></button>
+		</div>
+	</form>
 </article> <!-- product-info-aside .// -->
 		</main> <!-- col.// -->
 	</div> <!-- row.// -->
@@ -101,26 +69,6 @@
 		
 	</header>
 
-	{% comment %} <article class="box mb-3">
-		<div class="icontext w-100">
-			<img src="./images/avatars/avatar1.jpg" class="img-xs icon rounded-circle">
-			<div class="text">
-				<span class="date text-muted float-md-right">24.04.2020 </span>  
-				<h6 class="mb-1">Mike John </h6>
-				
-			</div>
-		</div> <!-- icontext.// -->
-		<div class="mt-3">
-			<p>
-				Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip
-			</p>	
-		</div>
-	</article> {% endcomment %}
-
-	
-
 	</div> <!-- col.// -->
 </div> <!-- row.// -->
 
@@ -130,7 +78,28 @@
 <!-- ========================= SECTION CONTENT END// ========================= -->
 
 
-<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/script.js' %}">
+$('.btn-heart').click(function(){
+	console.log('Wishlist');
+	alert('You clicked')
+	var id = $(this).attr("pid").toString();
+	console.log(id);
+	// console.log($(this));
+	alert('working')
+	$.ajax({
+	type : "GET",
+	url  : "/wishlist",
+	data : {
+		prod_id : id,
+	},
+	
+	success:function(data){
+		console.log('Success');
+		window.location.href = `http://localhost:7000/wishlist/${id}`
+	},
+	})
+	})
+</script>
 </body>
 </html>
 {% endblock content %}

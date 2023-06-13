@@ -1,6 +1,6 @@
 from django.db import models
 from . managers import CustomUserManager
-
+from PIL import Image
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils import timezone
@@ -48,35 +48,52 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
-    # EMAIL_FIELD = 'email'
+
     REQUIRED_FIELD = ['first_name', 'last_name']
 
-    list_display = [
-        'email', 'first_name', 'last_login', 'is_superuser', 'is_staff',
-        'is_active'
-    ]
-
-    readonly_fields = ['__all__']
 
     def get_full_name(self):
-        return self.first_name + ' ' + self.last_name
+        return f"{self.first_name} {self.last_name}"
 
-    # def __str__(self):
-    #     return f'{self.email}\'s Profile'
+    def __str__(self):
+        return f'{self.email}'
 
 
 class UserAddress(models.Model):
-
-    
-    user=models.OneToOneField(User,on_delete=models.CASCADE,null=True)
-    profile = models.ImageField(upload_to='images/userprofile/', null=True)
-    phone_number = models.CharField(max_length=13, unique=True)
-    landmark = models.CharField(max_length=30, null=True)
-    place = models.CharField(max_length=30, null=True)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    address_line1 = models.CharField(max_length=150, blank=True)
+    address_line2 = models.CharField(max_length=150, blank=True)
+    phone_number = models.CharField(max_length=10)
     city = models.CharField(max_length=30, null=True)
-    district = models.CharField(max_length=50, null=True)
+    state = models.CharField(max_length=50, null=True)
     country = models.CharField(max_length=40, null=True)
-    zipcode = models.IntegerField(verbose_name='PIN')
 
     def __str__(self):
-        return f'{self.user }\'s Address'
+        return f'{self.user}'
+
+    def full_address(self):
+        return f'{self.address_line1} + " " +  {self.address_line2}'
+
+    
+class Profile(models.Model):
+
+    user = models.OneToOneField(User, verbose_name=("Customer"), on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to='images/userprofile')
+
+    def __str__(self):
+        return f"{self.user.email}"
+
+  
+
+
+    def save(self):
+        super().save()
+
+        img = Image.open(self.profile_image.path)
+
+        if img.height > 85 or img.width > 85:
+            output_size = (85,85)
+            img.thumbnail(output_size)
+            img.save(self.profile_image.path)
+
+

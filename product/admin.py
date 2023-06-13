@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Category, Cart, Payment, Order
+from .models import Product, Category, Cart, Payment, Order ,Wishlist
 from django.urls import reverse
 from django.utils.html import format_html
 import admin_thumbnails
@@ -32,9 +32,20 @@ class CartModelAdmin(admin.ModelAdmin):
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'amount']
+    
 
-@admin_thumbnails.thumbnail('image')
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     pass
+
+
+
+
+@admin.register(Wishlist)
+class WishlistAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user', 'product']
+
+
+
 

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+        <div class="container bg-dark text-light">
+            <div class="row">
+            {% include 'includes/dashboard_sidebar.html' %}
+            <main class="col-md ">
+                <article class="card bg-dark">
+                <header class="card-header">
+                    <strong class="mr-3 text-dark">Edit Your Profile</strong>
+                </header>
+                <div class="card-body">
+                  
+                  <div class="row">
+                    <div class="col-9">
+                      {% if userprofile.profile_image.url %}
+                      <div class="m-3">
+                        <img src="{{ userprofile.profile_image.url }}" class="rounded-circle border-block" alt="profile" width="50">
+                      </div>
+                      {% else %}
+                      <div class="m-3">
+                        <img src="{% static 'images/user.png' %}" class="rounded-circle border-block" alt="profile" width="50">
+                      </div>
+                      {% endif %}
+                      <div class="btn-sm">
+                        {{ user_obj.profile_image.url }}
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <br><br>
+
+                  <div class="row" > 
+                    <div class="col-lg-12">
+                      <form  class="align-item-center justify-content-center  col-md" method="post" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col">
+                              {{ userform.first_name }}
+                            </div>
+                            <div class="col">
+                              {{ userform.last_name}}
+                            </div>
+                          </div>
+                        <br>
+                       
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                              <label>Mobile Number</label>
+                              {{ phone_number.label }}
+                              {{ addform.phone_number }}
+                            </div>
+                          </div>
+                        <br>
+                        <div class="row">
+                          <strong class="d-inline-block ms-5 text-light">Manage Address</strong>
+                          <div class="col-12 mt-3">
+                            {{ addform.address_line1 }}
+                          </div>
+                          <div class="col-12 mt-3">
+                            {{ addform.address_line2 }}
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-4 mt-3">
+                            {{ addform.city}}
+                          </div>
+                          <div class="col-4 mt-3">
+                            {{ addform.state }}
+                          </div>
+                          <div class="col-4 mt-3">
+                            {{ addform.country }}
+                          </div>
+                        </div>
+                        <div class="d-grid gap-2 mt-3">
+                          <input type="submit" value="Save" class="btn" style="background-color:#a32cc4;color:white;">
+                        </div>
+                      </form>
+                    </div>
+                  </div> <!-- row.// -->
+                  <br>
+                </div> <!-- card-body .// -->
+                </article> <!-- order-group.// --> 
+            </main>
+        </div> <!-- row.// -->
+        </div>
+        
+        
+        </section>
+	    </article> <!-- order-group.// --> 
+	</main>
+</div> <!-- row.// -->
+</div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+
+
+<!-- ========================= FOOTER ========================= -->
+
+<!-- ========================= FOOTER END // ========================= -->
+
+
+
+
+{% endblock content %}

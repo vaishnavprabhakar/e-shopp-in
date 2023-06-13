@@ -8,26 +8,6 @@
 
 
 
-// $('.add-wishlist').click(function(){
-//     var id = $(this).attr("pid").toString();
-//     console.log(id);
-
-//     $.ajax({
-//     type : "GET",
-//     url  : "/wishlist",
-//     data = {
-//         prod_id = id,
-//     },
-//     success:function(data){
-//         window.location.href = `http://localhost:7000/$(id)`
-//     },
-//     })
-// })
-
-
-// some script end
-
-
 
 
 

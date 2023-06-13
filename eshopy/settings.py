@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from decouple import config, Csv
 from pathlib import Path
 import os
 import product
@@ -22,27 +23,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=p%p+k(8ft05axv3la%-&g42=ws+jv@&a(d%)#z&%##tn_4wp-'
+SECRET_KEY = config('SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+ALLOWED_HOST = config('ALLOWED_HOST',default=['localhost','127.0.0.1'], cast=Csv())
 
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = ['django.contrib.admin','django.contrib.auth','django.contrib.contenttypes','django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
+  
+    
     'user',
     'product',
 
-    
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +50,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   
 ]
+
+
+
 
 ROOT_URLCONF = 'eshopy.urls'
 
@@ -82,12 +83,12 @@ WSGI_APPLICATION = 'eshopy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mrzdb',
-        'USER': 'postgres',
-        'PASSWORD': '12345',
-        'HOST': '127.0.0.1,localhost',
-        'PORT': '',
+        'ENGINE': config('dbENGINE'),
+        'NAME': config('DB'),
+        'USER': config('DBUSER'),
+        'PASSWORD': config('PASSWD'),
+        'HOST': config('HOST'),
+        'PORT': config('PORT'),
     }
 }
 
@@ -128,7 +129,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = '/static'
+STATIC_ROOT = '/static' 
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
@@ -144,13 +145,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 import smtplib
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'vaishnavprabhakar22@gmail.com'
-EMAIL_HOST_PASSWORD = 'iknwfqmjyythnion'
-DEFAULT_FROM_EMAIL = 'noreply@gmail.com'
+EMAIL_BACKEND = config('EMAILBACKEND')
+EMAIL_HOST = config('EMAILHOST')
+EMAIL_PORT = int(config('EMAILPORT',cast=int))
+EMAIL_USE_TLS = config('EMAILUSE_TLS',cast=bool)
+EMAIL_HOST_USER = config('EMAILHOSTUSER')
+EMAIL_HOST_PASSWORD = config('EMAILHOSTPASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULTFROMEMAIL')
 
 
 # media uploads
@@ -168,6 +169,5 @@ AUTH_USER_MODEL = "user.User"
 
 #-----------------------RAZORPAY PAYMENT GATEWAY-----------------
 
-RAZOR_KEY_ID = "rzp_test_7S5RmXAoN37TZL"
-RAZOR_KEY_SECRET = "JnPUniVfZzDg5f6Hlbeo3sT2"
-
+RAZOR_KEY_ID = config('PAYMENTGATEWAY_ID')
+RAZOR_KEY_SECRET = config('KEYSECRET')

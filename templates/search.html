@@ -1,0 +1,41 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row">
+        {% for prod in product %}
+        {% if not prod %}
+        <h3 class="text-white text-center">There is no products found from your search query..!</h3>
+        {% else %}
+        <div class="col-sm-4 text-center mb-4 hover-shadow">
+          <a href="" class="btn">
+            <div>
+              <img
+                src="{{ prod.product_image.get_url }}"
+                width="250px"
+                height="200px"
+                alt="img"
+                style="border-radius: 15px"
+              />
+              <div class="fw-bold" style="color: coral">
+                {{ prod.product_name }}
+              </div>
+              <div class="few-bold text" style="color: rgb(255, 255, 255)">
+                Rs: {{ prod.discounted_price }}/-
+              </div>
+              <del class="fw-light text-danger">{{ prod.product_price }}</del> 
+            </div>
+          </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

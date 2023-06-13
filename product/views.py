@@ -1,17 +1,38 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Category, Cart
+from .models import Product, Category, Cart, Wishlist
 from django.contrib.auth.decorators import login_required
 from user.models import UserAddress, User
 from django.db.models import Q
 from django.http import JsonResponse
 import razorpay  # razorpay integration
 from django.conf import settings
-from .models import Payment,Order
+from .models import Payment, Order, Wishlist
 from django.views.decorators.cache import cache_control
 # Create your views here.
 
 
+# @login_required(login_url='loginuser')
+def search(request):
+    category = Category.objects.all()
+    product = Product.objects.all()
+    product = None
+    if 'search' in request.GET:
+        search = request.GET.get('search')
+        if 'search':
+            product = Product.objects.order_by('-created_date').filter(
+                Q(description__icontains=search) | Q(product_name__icontains=search))
+        else:
+            return redirect('home')
+    context = {
+        'category': category,
+        'product': product,
 
+    }
+    return render(request, 'search.html', context)
+
+
+
+@login_required(login_url='loginuser')
 def homepage(request, category_slug=None):
     categories = None
     products = None
@@ -21,8 +42,10 @@ def homepage(request, category_slug=None):
                                           is_available=True)
         products_count = products.count()
     else:
-        products = Product.objects.all().filter(is_available=True)
+        products = Product.objects.all().filter()
         products_count = products.count()
+    
+    
     return render(request, 'account/home.html', {
         'products': products,
         'products_count': products_count,
@@ -30,6 +53,8 @@ def homepage(request, category_slug=None):
 
 
 def product_detail(request, category_slug, product_slug):
+
+    
     try:
         select_product = Product.objects.get(category__slug=category_slug,
                                              slug=product_slug)
@@ -45,9 +70,7 @@ def product_detail(request, category_slug, product_slug):
 def add_to_cart(request):
     user = request.user
     pid = request.GET.get('prod_id')
-    #product = Product.objects.get(id=pid)
     product = get_object_or_404(Product, id=pid)
-    #c = Cart(user=user, product=product)
     cart_item, created = Cart.objects.get_or_create(user=user, product=product)
     if not created:
         cart_item.quantity += 1
@@ -60,19 +83,20 @@ def carth(request):
     print('hi')
     user = request.user
     cart = Cart.objects.filter(user=user)
+    product_count = cart.count()
     amount = 0
     for p in cart:
         qty = p.quantity
         discount_price = p.product.discounted_price
         print(type(qty))
         print(type(discount_price))
-        
+
         value = qty * discount_price
         print('===================')
         print(value)
         amount = amount + value
     totalamount = amount + 40
-    
+
     return render(request, 'account/cart.html', locals())
 
 
@@ -82,23 +106,23 @@ def pluscart(request):
         prod_id = request.GET['prod_id']
         print(prod_id)
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
-        if c.quantity > 0:
-            c.quantity += 1
+        c.quantity += 1
         c.save()
 
         user = request.user
-        cart = Cart.objects.filter(user=user).first()
+        cart = Cart.objects.filter(user=user)
         amount = 0
         for p in cart:
             value = p.quantity * p.product.discounted_price
             amount = amount + value
         totalamount = amount + 40
-        
+
         data = {
             'quantity': c.quantity,
             'amount': amount,
             'totalamount': totalamount
         }
+        print(data)
         return JsonResponse(data)
 
 
@@ -133,17 +157,21 @@ def removecart(request):
         c.delete()
         user = request.user
         cart = Cart.objects.filter(user=user)
-        amount = 0
-        for p in cart:
-            value = p.quantity * p.product.discounted_price
-            amount = amount + value
-        totalamount = amount + 40
 
-        data = {
-            'quantity': c.quantity,
-            'amount': amount,
-            'totalamount': totalamount
-        }
+        if cart.exists():
+            amount = 0
+            for p in cart:
+                value = p.quantity * p.product.discounted_price
+                amount = amount + value
+            totalamount = amount + 40
+
+            data = {
+                'quantity': c.quantity,
+                'amount': amount,
+                'totalamount': totalamount
+            }
+        else:
+            data = {'refresh': True}
         return JsonResponse(data)
 
 
@@ -166,7 +194,6 @@ def checkout(request):
     client = razorpay.Client(
         auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
 
-
     data = {"amount": razoramount, "currency": "INR",
             "receipt": "order_rcptid_11"}
 
@@ -188,40 +215,69 @@ def checkout(request):
         )
 
         payment.save()
-    
+
     return render(request, 'place-order.html', locals())
 
 
-
 def paymentdone(request):
-  
-    order_id = request.GET.get('order_id')
+    try:
+        order_id = request.GET.get('order_id')
+        payment_id = request.GET.get('payment_id')
+        cust_id = request.GET.get('cust_id')
 
-    payment_id = request.GET.get('payment_id')
+        user = request.user
+        user = get_object_or_404(User, id=cust_id)
+        payment = get_object_or_404(Payment, razorpay_order_id=order_id)
 
-    cust_id = request.GET.get('cust_id')
+        payment.paid = True
+        payment.razorpay_payment_id = payment_id
+        payment.save()
 
+        cart = Cart.objects.filter(user=user)
+        for c in cart:
+            Order(user=user,product=c.product, quantity=c.quantity, payment=payment).save()
+            c.delete()
+        return redirect("orders")
+
+    except (User.DoesNotExist, Payment.DoesNotExist):
+        return redirect("orders")
+    except Exception as e:      
+        print(str(e))
+        return redirect("orders")
+
+
+# order done
+
+@login_required(login_url='loginuser')
+def orders(request):
     user = request.user
-
-    user = User.objects.get(id=user.id)
-
-    payment = Payment.objects.get(razorpay_order_id = order_id)
-
-    payment.paid = True
-
-    payment.razorpay_payment_id = payment_id
-
-    payment.save()
-
-    cart = Cart.objects.filter(user=user)
-
-    print(cart)
-
-    for c in cart:
-        Order(user=user, product=c.product, quantity=c.quantity, payment=payment).save()
-        c.delete()
-
-    return redirect('home')
+    totalitem = 0
+    wishitem = 0
+    totalitem = Cart.objects.filter(user=request.user).count()
+    wishitem = int(Wishlist.objects.filter(user=request.user).count())
+    orders = Order.objects.filter(user=request.user)
+    return render(request, 'payment_done.html', locals())
 
 
+# wishlist funstion
 
+
+@login_required(login_url='loginuser')
+def add_to_wishlist(request):
+    
+    if request.method == 'GET':
+        prod_id = request.GET.get('pid')
+        product = Product.objects.get(id=prod_id)
+        user = request.user
+        wishitem, created = Wishlist.objects.get_or_create(user=user, product=product)
+        print(created, wishlist)
+        if created:
+            data = {
+                'message': 'Wishlist added successfully',
+            }
+        else:
+            data = {
+                'message': 'Wishlist already exists',
+            }
+
+        return JsonResponse(data)

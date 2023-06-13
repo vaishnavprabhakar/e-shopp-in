@@ -3,7 +3,7 @@
 
 
 
-{% comment %} {% include 'includes/navbar.html' %} {% endcomment %}
+
 
 {% block content %}
 
@@ -21,7 +21,7 @@
 		<form class="register-form outer-top-xs col-lg-12 col-xl-12 " id="registerform" role="form" method='post'>
 			{% csrf_token %}
 			
-			  {% comment %} {% if form.errors %}
+			  {% if form.errors %}
 			  <li class="text-white">{{ form.field.errors }}</li>
 			  <li class="text-white">{{ form.non_field.errors}}</li>
 			  {% endif %}
@@ -34,7 +34,7 @@
                       <p class="error-message text-white bg-danger">{{ field.errors }}</p>
                   {% endif %}
               </div>
-              {% endfor %} {% endcomment %}
+              {% endfor %}
 
 
 			{% for field in form %}
@@ -147,8 +147,6 @@ $(document).ready(function() {
     {% for msg in messages %}
     {% if msg.success %}
     alertify.('{{ msg }}', 'success', 5, function(){  console.log('dismissed'); });
-    {% else %}
-    alertify. ('{{ msg }}');
     {% endif %}
     {% endfor %} 
 </script>

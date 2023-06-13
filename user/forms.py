@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 # from .models import User
 from django.core import validators
 from django.contrib.auth import get_user_model
-from .models import UserAddress
+from .models import UserAddress, Profile
 from django.forms import ModelForm
 # from phonenumber_field.modelfields import PhoneNumber
 # from phonenumber_field.formfields import PhoneNumberField
@@ -15,7 +15,121 @@ User = get_user_model()
 
 
 
+class UpdateAddressForm(forms.ModelForm):
+    address_line1 = forms.CharField(max_length=256,
+                                 required=True,
+                                 label='address_line1',
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'address_line1',
+                                         'autofocus': True,
+                                         'placeholder': 'address_line1'
+                                     }))
+    address_line2 = forms.CharField(max_length=256,
+                                 required=True,
+                                 label='address_line2',
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'address_line2',
+                                         'autofocus': True,
+                                         'placeholder': 'address_line2'
+                                     }))
+
+    phone_number = forms.CharField( required=True, widget=forms.NumberInput(
+                                        attrs={
+                                         'class' :'form-control',
+                                         'name': 'phone_number',
+                                         'autofocus': True,
+                                         'placeholder': 'Phone Number'
+                                        }))
+
+
+    city = forms.CharField(max_length=20,
+                                 required=True,
+                                 label='city',
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'city',
+                                         'autofocus': True,
+                                         'placeholder': 'city'
+                                     }))
+    state = forms.CharField(max_length=20,
+                                 required=True,
+                                 label='state',
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'state',
+                                         'autofocus': True,
+                                         'placeholder': 'state'
+                                     }))
+
+
+    country = forms.CharField(max_length=20,
+                                 required=True,
+                                 label='country',
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                
+                                         'name': 'country',
+                                         'autofocus': True,
+                                         'placeholder': 'country'
+                                     }))
+    class Meta:
+        model = UserAddress
+        fields = ('address_line1','address_line2','phone_number','city','state', 'country',)
+
+
+class UpdateProfileForm(forms.ModelForm):
+     profile_image = forms.ImageField(
+                                 required=False,
+                                 label='Profile image',help_text='Optional input for the profile image', widget=forms.FileInput())
+     class Meta:
+        model = Profile
+        fields = ("profile_image",)
+
+
+class UpdateUserForm(forms.ModelForm):
+     first_name = forms.CharField(max_length=20,
+                                 required=True,
+                                 label='First name',
+                                 validators=[validators.MinLengthValidator(4)],
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'first_name',
+                                         'autofocus': True,
+                                         'placeholder': 'First Name'
+                                     }))
+
+     last_name = forms.CharField(max_length=20,
+                                 required=True,
+                                 label='Lastname',
+                                 validators=[validators.MinLengthValidator(4)],
+                                 widget=forms.TextInput(
+                                     attrs={
+                                         'class': 'form-control',
+                                         'name': 'last_name',
+                                         'autofocus': True,
+                                         'placeholder': 'First Name'
+                                     }))
+    
+     class Meta:
+        model = User
+        fields = ('first_name', 'last_name',)
+
+
+
+# End of the form ========================
+
+
+
 class UserForm(UserCreationForm):
+
     User = get_user_model()
     first_name = forms.CharField(max_length=20,
                                  required=True,
@@ -24,7 +138,7 @@ class UserForm(UserCreationForm):
                                  widget=forms.TextInput(
                                      attrs={
                                          'class': 'form-control',
-                                         'name': 'firstname',
+                                         'name': 'first_name',
                                          'autofocus': True,
                                          'placeholder': 'First Name'
                                      }))
@@ -91,13 +205,13 @@ class UserForm(UserCreationForm):
         model = get_user_model()
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2']
 
-
 class LoginForm(AuthenticationForm):
+
     User = get_user_model()
     email = forms.EmailField(required=True,
                              max_length=100,
                              label='Email',
-                             validators=[validators.validate_email],
+                             #validators=[validators.validate_email],
                              widget=forms.TextInput(
                                  attrs={
                                      'class': 'form-control',
@@ -108,6 +222,7 @@ class LoginForm(AuthenticationForm):
 
     password1 = forms.CharField(required=True,
                                 label='Password',
+                                help_text="Password requires atleast one capital letter, numerics and special charectors",
                                 validators=[validators.MinLengthValidator(8)],
                                 widget=forms.PasswordInput(
                                     attrs={
@@ -126,117 +241,13 @@ class LoginForm(AuthenticationForm):
         del self.fields['username'], self.fields['password']
 
 
-class AddressForm(forms.ModelForm):
 
-    #  email = forms.EmailField(required=True,
-    #                          max_length=100,
-    #                          label='Email',
-    #                          validators=[validators.validate_email],
-    #                          widget=forms.TextInput(
-    #                              attrs={
-    #                                  'class': 'form-group',
-    #                                  'autofocus': True,
-    #                                  'placeholder': 'Enter Email',
-    #                                  'name': 'email'
-    #                              }))
-
-    profile = forms.ImageField(label='', required=False)  #profile
-
-    phone_number = forms.CharField(
-        label='',
-        max_length=12,
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control pt-3',
-                'placeholder': 'Enter Phone',  # phone_number
-                'name': 'phone_number'
-            }))
-
-
-    place = forms.CharField(
-        max_length=30,
-        label='',
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-3',  # place
-                'placeholder': 'Place',
-                'name': 'place'
-            }))
-
-    landmark = forms.CharField(
-        label='',
-        max_length=40,
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-2',  #landmark
-                'placeholder': 'Enter Landmark',
-                'name': 'landmark'
-            }))
-
-            
-    city = forms.CharField(
-        max_length=30,
-        label='',
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-2',  # city
-                'placeholder': 'City',
-                'name': 'city'
-            }))
-
-    zipcode = forms.IntegerField(
-        label='',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-2',  # zipcode
-                'placeholder': 'Enter zipcode',
-                'name': 'zipcode'
-            }))
-
-    district = forms.CharField(
-        max_length=30,
-        label='',
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-2',
-                'placeholder': 'Enter district',  #district
-                'name': 'district'
-            }))
-
-    country = forms.CharField(
-        max_length=30,
-        label='',
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control mt-2',
-                'placeholder': 'Enter country',  # country
-                'name': 'country'
-            }))
-
-    class Meta:
-        model = UserAddress
-        fields = ('profile', 'phone_number', 'landmark', 'place', 'city',
-                  'zipcode', 'district', 'country')
-
-
-# Password Reset Form
 class MyPasswordResetForm(PasswordResetForm):
-
     email = forms.EmailField(required=True,
                              widget=forms.EmailInput(attrs={
                                  'class': 'form-control col-md-6',
                                  'name': 'email'
                              }))
-
-
-
-
 
 class MySetPasswordForm(SetPasswordForm):
 
@@ -247,9 +258,7 @@ class MySetPasswordForm(SetPasswordForm):
         label='Confirm Password',
         widget=forms.PasswordInput(attrs={'class': 'form-control col-md'}))
 
-
 class MyPasswordChange(PasswordChangeForm):
-    
     old_password = forms.CharField(label='Old Password',
                                    widget=forms.PasswordInput(
                                        attrs={
@@ -270,6 +279,4 @@ class MyPasswordChange(PasswordChangeForm):
             'autocomplete': 'Current Password',
             'class': 'form-group'
         }))
-
-
 

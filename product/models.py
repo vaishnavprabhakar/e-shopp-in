@@ -79,11 +79,13 @@ class Payment(models.Model):
 STATUS_CHOICES = (
     ('PENDING', "Order Pending"),
     ('ACCEPTED', "Order Accepted"),
-    ('PACKED', "YOUR ORDER IS PACKED"),
-    ('ON THE WAY', "ON THE WAY TO YOUR NEAREST HUB"),
-    ('DELIVERED', " ORDER IS DELEIVERED"),
-    ('CANCEL ORDER', " ORDER IS CANCELLED"),
+    ('PACKED', "Your Order Is Packed"),
+    ('ON THE WAY', "On The Way To Your Nearest Hub"),
+    ('DELIVERED', "Order Is Delivered"),
+    ('CANCEL ORDER', "Order Is Cancelled"),
 )
+
+
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -92,9 +94,16 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     status = models.CharField( max_length=50, choices=STATUS_CHOICES, default='PENDING')
     payment = models.ForeignKey(Payment, on_delete=models.CASCADE, default="")
-
+ 
     @property
     def total_cost(self):
         return self.quantity * self.product.discounted_price
 
 
+
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -183,13 +183,16 @@ def edit_profile(request):
             user_add.save()
 
             profileform.save()
+            messages.success(request, 'Profile updated successfully...')
             return redirect(profile)
         else:
+            messages.error(request, 'Something went wrong. Please try again later.')
             return redirect(edit_profile)
     else:
         user = request.user
         user_obj = User.objects.get(pk = user.pk)        
         userform = UpdateUserForm(instance=user_obj)
+        profileform = UpdateProfileForm(instance=user_obj)
         try:
             add = UserAddress.objects.all().filter(user=user_obj).first()
             if add is not None:

@@ -85,11 +85,11 @@ WSGI_APPLICATION = 'eshopy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config('dbENGINE'),
-        'NAME': 'mrzdb',
+        'NAME': config('DB'),
         'USER': config('DBUSER'),
         'PASSWORD': config('PASSWD'),
         'HOST': config('HOST'),
-        'PORT': '',
+        'PORT': config('PORT'),
     }
 }
 

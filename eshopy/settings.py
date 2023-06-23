@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET")
 DEBUG = config('DEBUG', cast=bool, default=True)
 
 
-ALLOWED_HOST = config('ALLOWED_HOST',default=['localhost','127.0.0.1'], cast=Csv())
+ALLOWED_HOST = config('ALLOWED_HOST',default=['localhost'], cast=Csv())
 
 
 # Application definition
@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'eshopy.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': config('dbENGINE'),
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('DB'),
         'USER': config('DBUSER'),
         'PASSWORD': config('PASSWD'),

@@ -30,7 +30,7 @@ SECRET_KEY = config("SECRET")
 DEBUG = config('DEBUG', cast=bool, default=True)
 
 
-ALLOWED_HOST = config('ALLOWED_HOST',default=['localhost'], cast=Csv())
+ALLOWED_HOST = "*"
 
 
 # Application definition

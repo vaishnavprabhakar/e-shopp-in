@@ -30,12 +30,12 @@ SECRET_KEY = config("SECRET")
 DEBUG = config('DEBUG', cast=bool, default=True)
 
 
-ALLOWED_HOST = "*"
+ALLOWED_HOST ='3.92.208.122'
 
 
 # Application definition
 
-INSTALLED_APPS = ['django.contrib.admin','django.contrib.auth','django.contrib.contenttypes','django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
+INSTALLED_APPS = ['django.contrib.admin','whitenoise.runserver_nostatic','django.contrib.auth','django.contrib.contenttypes','django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
   
     
     'user',
@@ -46,6 +46,7 @@ INSTALLED_APPS = ['django.contrib.admin','django.contrib.auth','django.contrib.c
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

@@ -33,3 +33,9 @@ urlpatterns = [
 admin.site.site_header  =  "Mrz  Shoppie"
 admin.site.site_title = "Mrz Shoppie"
 admin.site.index_title = "Welcome to Mrz Shoppie"
+
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_URL)

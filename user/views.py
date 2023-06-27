@@ -85,7 +85,7 @@ def loginuser(request):
     return render(request, 'signin.html', {'form': login_form})
 
 
-@login_required(login_url='loginuser')
+
 def home(request, category_slug=None):
     categories = None
     products = None

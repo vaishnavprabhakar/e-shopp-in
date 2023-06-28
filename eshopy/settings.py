@@ -176,13 +176,13 @@ RAZOR_KEY_SECRET = config('KEYSECRET')
 
 
 # -----------AWS Configuration settings ------------------------------
-AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID','')
-AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY','')
-AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME','')
-AWS_S3_SIGNATURE_NAME = config('s3v4','')
-AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME','')
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SIGNATURE_NAME = config('s3v4')
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
 AWS_S3_FILE_OVERWRITE = config('AWS_S3_FILE_OVERWRITE',cast=bool,default=False)
 AWS_DEFAULT_ACL =  config('AWS_DEFAULT_ACL',default=None)
 AWS_S3_VERITY = config('AWS_S3_VERITY', cast=bool, default=True)
-DEFAULT_FILE_STORAGE = config('storages.backends.s3boto3.S3Boto3Storage', '')
+DEFAULT_FILE_STORAGE = config('storages.backends.s3boto3.S3Boto3Storage')
 

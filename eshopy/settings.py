@@ -185,4 +185,3 @@ AWS_S3_FILE_OVERWRITE = config('AWS_S3_FILE_OVERWRITE',cast=bool,default=False)
 AWS_DEFAULT_ACL =  config('AWS_DEFAULT_ACL',default=None)
 AWS_S3_VERITY = config('AWS_S3_VERITY', cast=bool, default=True)
 DEFAULT_FILE_STORAGE = config('storages.backends.s3boto3.S3Boto3Storage')
-

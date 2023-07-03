@@ -131,7 +131,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/home/ubuntu/e-shopp-in/static' 
+STATIC_ROOT = 'var/www/staticfiles/' 
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')

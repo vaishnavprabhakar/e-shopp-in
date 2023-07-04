@@ -60,7 +60,7 @@ def product_detail(request, category_slug, product_slug):
                                              slug=product_slug)
 
     except Exception as e:
-        raise e
+        pass
 
     return render(request, "product_detail.html",
                   {'select_product': select_product})

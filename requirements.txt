@@ -15,6 +15,7 @@ django-admin-honeypot==1.1.0
 django-admin-thumbnails==0.2.7
 django-cors-headers==3.10.1
 django-ipware==4.0.2
+django-jazzmin==2.6.0
 django-storages==1.13.2
 ecdsa==0.18.0
 filelock==3.12.0

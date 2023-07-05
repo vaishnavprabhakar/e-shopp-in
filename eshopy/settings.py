@@ -31,16 +31,34 @@ SECRET_KEY = config("SECRET")
 DEBUG = config('DEBUG', cast=bool, default=True)
 
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '3.92.208.122']
+ALLOWED_HOSTS = [
+        'localhost',
+        '127.0.0.1',
+        '18.205.161.148'
+        ]
 
 
 # Application definition
 
-INSTALLED_APPS = ['django.contrib.admin','whitenoise.runserver_nostatic','django.contrib.auth','django.contrib.contenttypes','django.contrib.sessions','django.contrib.messages','django.contrib.staticfiles',
+INSTALLED_APPS = [
+    
+    'jazzmin',# third party
+    
+    'django.contrib.admin',
+    'whitenoise.runserver_nostatic',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
   
     
     'user',
     'product',
+
+
+
+   
 
 ]
 
@@ -132,7 +150,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = '/var/www/staticfiles/' 
+STATIC_ROOT = 'var/www/staticfiles/' 
 
 
 STATICFILES_DIRS = [

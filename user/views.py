@@ -27,7 +27,7 @@ from django.views.decorators.cache import cache_control
 # class MyPasswordResetView(PasswordResetView):
 #     form_class = MyPasswordResetForm
 #     template_name = 'password_reset.html'
-#     success_AttributeError: 'str' object has no attribute 'get'url = reverse_lazy('password_reset_done')
+#     success_AttributeError: 'str' objects has no attribute 'get'url = reverse_lazy('password_reset_done')
 
 User = get_user_model()
 
@@ -65,7 +65,7 @@ def active(request, uidb64, token):
 
 def loginuser(request):
 
-    if not user.is_admin:
+    if user is not is_superuser:
         return redirect(home)
         
     login_form = LoginForm()

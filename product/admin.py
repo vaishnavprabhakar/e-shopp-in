@@ -18,8 +18,6 @@ class ProductAdmin(admin.ModelAdmin):
                     'modified_date', 'is_available')
     prepopulated_fields = {'slug': ('product_name',)}
 
-
-
 admin.site.register(Product, ProductAdmin)
 
 

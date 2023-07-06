@@ -351,8 +351,8 @@ JAZZMIN_SETTINGS = {
     "language_chooser": True,
 }
 
-JAZZMIN_UI_TWEAKS = {
 
-    "theme": "flatly",
-    "dark_mode_theme": "darkly",
+JAZZMIN_UI_TWEAKS = {
+  
+    "theme": "darkly",
 }

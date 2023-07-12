@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import reverse
-# # Create your views here.
+# # Create your views here..
 
 from django.http import HttpResponse
 from . forms import UserForm, LoginForm, UpdateAddressForm, UpdateProfileForm, UpdateUserForm
@@ -63,11 +63,7 @@ def active(request, uidb64, token):
 
 
 
-def loginuser(request):
-
-    if not user.is_admin:
-        return redirect(home)
-        
+def loginuser(request):  
     login_form = LoginForm()
     if request.method == 'POST':
         login_form = LoginForm(data=request.POST)

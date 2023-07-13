@@ -142,15 +142,14 @@ $(document).ready(function() {
 
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 
-{% block script %}
-{% if messages %}
-  <script>
-    {% for message in messages %}
-      alertify.{{ message.tags }}('{{ message }}');
-    {% endfor %}
-  </script>
-{% endif %}
-{% endblock script %}
+<script>
+	alertify.set('notifier','position', 'top-right');
+    {% for msg in messages %}
+    {% if msg.success %}
+    alertify.('{{ msg }}', 'success', 5, function(){  console.log('dismissed'); });
+    {% endif %}
+    {% endfor %} 
+</script>
 	
 
 </body>

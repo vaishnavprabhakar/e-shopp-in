@@ -64,8 +64,6 @@ def active(request, uidb64, token):
 
 
 def loginuser(request):
-    
-        
     login_form = LoginForm()
     if request.method == 'POST':
         login_form = LoginForm(data=request.POST)

@@ -34,8 +34,9 @@ DEBUG = config('DEBUG', cast=bool, default=True)
 ALLOWED_HOSTS = [
         'localhost',
         '127.0.0.1',
-        '18.205.161.148'
+        '54.173.74.196'
         ]
+
 
 
 # Application definition
@@ -109,7 +110,7 @@ DATABASES = {
         'USER': config('DBUSER'),
         'PASSWORD': config('PASSWD'),
         'HOST': config('HOST'),
-        'PORT': config('PORT'),
+        #'PORT': config('PORT'),
     }
 }
 

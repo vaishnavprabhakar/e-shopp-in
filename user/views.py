@@ -64,9 +64,7 @@ def active(request, uidb64, token):
 
 
 def loginuser(request):
-    user = request.user
-    if user is not is_superuser:
-        return redirect(home)
+    
         
     login_form = LoginForm()
     if request.method == 'POST':

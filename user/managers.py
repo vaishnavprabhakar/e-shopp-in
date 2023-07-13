@@ -1,4 +1,3 @@
-from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext as _
 from django.contrib.auth.models import UserManager
 

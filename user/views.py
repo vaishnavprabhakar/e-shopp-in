@@ -65,8 +65,7 @@ def active(request, uidb64, token):
 
 def loginuser(request):
     
-    if not user.is_admin:
-        return redirect(home)
+   
     login_form = LoginForm()
     if request.method == 'POST':
         login_form = LoginForm(data=request.POST)
@@ -84,7 +83,7 @@ def loginuser(request):
     return render(request, 'signin.html', {'form': login_form})
 
 
-@login_required(login_url='loginuser')
+@login_required(login_url='login/')
 def home(request, category_slug=None):
     categories = None
     products = None

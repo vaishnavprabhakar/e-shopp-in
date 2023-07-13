@@ -62,15 +62,12 @@ def active(request, uidb64, token):
         return render(request, 'account/active.html')
 
 
-
+@login_required(login_url='loginuser')
 def loginuser(request):
     login_form = LoginForm()
     if request.method == 'POST':
         login_form = LoginForm(data=request.POST)
         if login_form.is_valid():
-            email = login_form.cleaned_data.get('email')
-            password1 = login_form.cleaned_data.get('password1')
-           
             user = authenticate(email=email, password=password1)
             if user is not None and not user.is_superuser:
                 auth_login(request, user)
@@ -84,7 +81,7 @@ def loginuser(request):
     return render(request, 'signin.html', {'form': login_form})
 
 
-
+@login_required(login_url='loginuser')
 def home(request, category_slug=None):
     categories = None
     products = None

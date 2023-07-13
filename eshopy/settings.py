@@ -207,7 +207,7 @@ AWS_DEFAULT_ACL =  config('AWS_DEFAULT_ACL',default=None)
 AWS_S3_VERITY = config('AWS_S3_VERITY', cast=bool, default=True)
 DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE',cast=Csv())
 
-# STATICFILES_STORAGE = config('STATICFILES_STORAGE',cast=Csv())
+STATICFILES_STORAGE = config('STATICFILES_STORAGE',cast=Csv())
 
 
 

@@ -62,8 +62,9 @@ def active(request, uidb64, token):
         return render(request, 'account/active.html')
 
 
-@login_required(login_url='loginuser')
+
 def loginuser(request):
+    
     if not user.is_admin:
         return redirect(home)
     login_form = LoginForm()

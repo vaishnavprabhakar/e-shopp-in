@@ -1,1 +1,1 @@
-# e-shopp-in
+An e-commerce platform
